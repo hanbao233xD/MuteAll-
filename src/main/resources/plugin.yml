@@ -1,0 +1,3 @@
+name: Muteall
+version: '${project.version}'
+main: club.yuanpi.muteall.Muteall
