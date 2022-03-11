@@ -1,3 +1,7 @@
 name: Muteall
 version: '1.0-SNAPSHOT'
 main: club.yuanpi.muteall.Muteall
+commands:
+  muteall:
+    description: muteall
+    usage: /muteall

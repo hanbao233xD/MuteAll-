@@ -3,10 +3,8 @@ package club.yuanpi.muteall;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.util.Random;
 
 import static org.bukkit.Bukkit.getServer;
 
@@ -16,6 +14,7 @@ public class utils {
     getServer().getLogger().info(log);
 
     }
+    public static void banplayer(String bancmd){getServer().dispatchCommand(getServer().getConsoleSender(), bancmd);}
     public static void sendok(Player player,String message){
         player.sendMessage(ChatColor.GREEN+message);
     }
@@ -47,6 +46,58 @@ public class utils {
             }
         }
         return sbf.toString();
+    }
+    public  static  String readLastLine(File file, String charset)  throws  IOException {
+        if  (!file.exists() || file.isDirectory() || !file.canRead()) {
+            return  null ;
+        }
+        RandomAccessFile raf =  null ;
+        try  {
+            raf =  new  RandomAccessFile(file,  "r" );
+            long  len = raf.length();
+            if  (len == 0L) {
+                return  "" ;
+            }  else  {
+                long  pos = len -  50 ;
+                while  (pos >  0 ) {
+                    pos--;
+                    raf.seek(pos);
+                    if  (raf.readByte() ==  '\n' ) {
+                        break ;
+                    }
+                }
+                if  (pos ==  0 ) {
+                    raf.seek( 0 );
+                }
+                byte [] bytes =  new  byte [( int ) (len - pos)];
+                raf.read(bytes);
+                if  (charset ==  null ) {
+                    return  new  String(bytes);
+                }  else  {
+                    return  new  String(bytes, charset);
+                }
+            }
+        }  catch  (FileNotFoundException e) {
+        }  finally  {
+            if  (raf !=  null ) {
+                try  {
+                    raf.close();
+                }  catch  (Exception e2) {
+                }
+            }
+        }
+        return  null ;
+    }
+    public static String getRandomString(int minLength, int maxLength) {
+        String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random random = new Random();
+        int length = random.nextInt(maxLength) % (maxLength - minLength + 1) + minLength;
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < length; ++i) {
+            int number = random.nextInt(62);
+            sb.append(str.charAt(number));
+        }
+        return sb.toString();
     }
 
 
